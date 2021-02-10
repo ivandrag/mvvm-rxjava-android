@@ -5,5 +5,5 @@ import ro.dragosivanov.domain.api.GoRestApi
 class UserRemoteDataSource(
     private val goRestApi: GoRestApi
 ) {
-
+    fun getUsers() = goRestApi.getUsers()
 }

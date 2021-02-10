@@ -5,4 +5,5 @@ import ro.dragosivanov.domain.datasource.UserRemoteDataSource
 class UserRepository(
     private val userRemoteDataSource: UserRemoteDataSource
 ) {
+    fun getUsers() = userRemoteDataSource.getUsers()
 }
