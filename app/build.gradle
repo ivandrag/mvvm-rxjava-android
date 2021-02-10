@@ -37,6 +37,8 @@ dependencies {
     def nav_version = "2.3.3"
     def retrofit_version = "2.9.0"
     def okHttp_version = "4.9.0"
+    def rxJava_version ="3.0.0"
+    def rxJava_adapter_version = "3.0.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
@@ -55,6 +57,11 @@ dependencies {
 
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
+
+    // RxJava and RxAndroid
+    implementation "io.reactivex.rxjava3:rxjava:$rxJava_version"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxJava_version"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rxJava_adapter_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
