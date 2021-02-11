@@ -11,4 +11,6 @@ class UserRemoteDataSource(
     fun getLastPage(page: Int) = goRestApi.getUsers(page)
 
     fun createUser(user: CreateUser) = goRestApi.createUser(user)
+
+    fun deleteUser(id: Long) = goRestApi.deleteUser(id)
 }

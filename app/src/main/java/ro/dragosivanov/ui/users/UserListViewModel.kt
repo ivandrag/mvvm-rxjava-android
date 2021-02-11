@@ -33,6 +33,20 @@ class UserListViewModel(
         )
     }
 
+    fun deleteUser(id: Long) {
+        disposable.add(
+            userUseCase.deleteUser(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(::hideLoading)
+                .subscribe({
+                    _onEvent.value = OnEvent.UserDeletedSuccess
+                }, {
+                    _onEvent.value = OnEvent.UserDeletedError
+                })
+        )
+    }
+
     override fun onCleared() {
         disposable.dispose()
         super.onCleared()
@@ -61,5 +75,7 @@ class UserListViewModel(
         data class Error(val message: String?) : OnEvent()
         data class Success(val userList: List<User>) : OnEvent()
         object EmptyList : OnEvent()
+        object UserDeletedSuccess: OnEvent()
+        object UserDeletedError: OnEvent()
     }
 }

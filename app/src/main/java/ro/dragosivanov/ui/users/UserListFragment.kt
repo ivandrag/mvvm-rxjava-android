@@ -3,6 +3,7 @@ package ro.dragosivanov.ui.users
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -43,13 +44,22 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
                 getString(R.string.user_list_fragment_empty_list_text),
                 Toast.LENGTH_LONG
             ).show()
+            UserListViewModel.OnEvent.UserDeletedSuccess -> {
+                userListAdapter.allUsersList.clear()
+                userListViewModel.getAllUsers()
+            }
+            UserListViewModel.OnEvent.UserDeletedError -> {
+                // TODO - implement error message
+            }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userListAdapter = UserListAdapter()
+        userListAdapter = UserListAdapter {
+            showAlertDialog(it)
+        }
         initViews()
         userListViewModel =
             ViewModelProvider(this, initDi()).get(UserListViewModel::class.java)
@@ -79,5 +89,18 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
         val userContainer = UserContainer(appContainer.goRestApi)
         val userUseCase = userContainer.userUseCase
         return UserListViewModelFactory(userUseCase)
+    }
+
+    private fun showAlertDialog(id: Long) {
+        val dialog = context?.let {
+            AlertDialog.Builder(it).setTitle(getString(R.string.user_list_dialog_title_text))
+                .setPositiveButton(
+                    getString(R.string.user_list_dialog_positive_button_text)
+                ) { view, _ ->
+                    userListViewModel.deleteUser(id)
+                    view.dismiss()
+                }
+        }
+        dialog?.show()
     }
 }

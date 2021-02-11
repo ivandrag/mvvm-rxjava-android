@@ -17,6 +17,8 @@ class UserRepository(
     fun addUser(name: String, email: String) =
         userRemoteDataSource.createUser(CreateUser(name, email))
 
+    fun deleteUser(id: Long) = userRemoteDataSource.deleteUser(id)
+
     private fun getLastPage(page: Int): Single<UsersResponse> {
         return userRemoteDataSource.getLastPage(page)
     }

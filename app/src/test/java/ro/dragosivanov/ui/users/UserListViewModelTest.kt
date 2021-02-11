@@ -3,6 +3,7 @@ package ro.dragosivanov.ui.users
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import io.mockk.*
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule
@@ -76,6 +77,30 @@ class UserListViewModelTest {
             observer.onChanged(UserListViewModel.OnEvent.ShowLoading)
             observer.onChanged(UserListViewModel.OnEvent.Error(exception.message))
             observer.onChanged(UserListViewModel.OnEvent.HideLoading)
+        }
+    }
+
+    @Test
+    fun `deleteUser Given response is successful Then show UserDeletedSuccess`() {
+        every { userUseCase.deleteUser(1) } returns Completable.complete()
+        every { observer.onChanged(any()) } just Runs
+
+        userListViewModel.deleteUser(1)
+
+        verify {
+            observer.onChanged(UserListViewModel.OnEvent.UserDeletedSuccess)
+        }
+    }
+
+    @Test
+    fun `deleteUser Given response is successful Then show UserDeletedError`() {
+        every { userUseCase.deleteUser(1) } returns Completable.error(Exception())
+        every { observer.onChanged(any()) } just Runs
+
+        userListViewModel.deleteUser(1)
+
+        verify {
+            observer.onChanged(UserListViewModel.OnEvent.UserDeletedError)
         }
     }
 }

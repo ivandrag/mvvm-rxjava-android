@@ -2,10 +2,7 @@ package ro.dragosivanov.domain.api
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import ro.dragosivanov.domain.model.CreateUser
 import ro.dragosivanov.domain.model.UsersResponse
 
@@ -16,4 +13,8 @@ interface GoRestApi {
 
     @POST("/public-api/users")
     fun createUser(@Body user: CreateUser): Completable
+
+    @DELETE("/public-api/users/{id}")
+    fun deleteUser(@Path("id") id: Long): Completable
+
 }
