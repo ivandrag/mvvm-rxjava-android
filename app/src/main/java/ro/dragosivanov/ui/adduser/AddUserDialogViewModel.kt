@@ -20,24 +20,18 @@ class AddUserDialogViewModel(
 
     fun createUser(name: String?, email: String?) {
         when {
-            name.isNullOrBlank() -> {
-                // Do validation for the name
-            }
-            email.isNullOrBlank() -> {
-                // Do validation for the email
-            }
+            name.isNullOrBlank() -> _onEvent.value = OnEvent.EmptyName
+            email.isNullOrBlank() -> _onEvent.value = OnEvent.EmptyEmail
             else -> {
                 disposable.add(
                     userUseCase.addUser(name, email)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnComplete {
+                        .subscribe({
                             _onEvent.value = OnEvent.Success
-                        }
-                        .doOnError {
+                        }, {
                             _onEvent.value = OnEvent.Error
-                        }
-                        .subscribe()
+                        })
 
                 )
             }
@@ -52,5 +46,7 @@ class AddUserDialogViewModel(
     sealed class OnEvent {
         object Success : OnEvent()
         object Error : OnEvent()
+        object EmptyName : OnEvent()
+        object EmptyEmail : OnEvent()
     }
 }
