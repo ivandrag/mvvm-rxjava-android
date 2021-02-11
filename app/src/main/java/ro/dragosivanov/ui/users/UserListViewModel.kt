@@ -19,11 +19,8 @@ class UserListViewModel(
     val onEvent: LiveData<OnEvent>
         get() = _onEvent
 
-    init {
-        _onEvent.value = OnEvent.ShowLoading
-    }
-
     fun getAllUsers() {
+        _onEvent.value = OnEvent.ShowLoading
         disposable.add(
             userUseCase.getUsers()
                 .subscribeOn(Schedulers.io())
