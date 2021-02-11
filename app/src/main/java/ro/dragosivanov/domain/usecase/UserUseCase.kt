@@ -7,4 +7,5 @@ class UserUseCase(
 ) {
     fun getUsers() = userRepository.getUsers()
 
+    fun addUser(name: String, email: String) = userRepository.addUser(name, email)
 }

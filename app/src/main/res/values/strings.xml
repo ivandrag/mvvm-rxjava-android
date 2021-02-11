@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Demo</string>
+    <string name="user_list_fragment_error_text">There was an error with your request</string>
+    <string name="user_list_fragment_empty_list_text">Oops, there is no information available</string>
+    <string name="user_list_adapter_created_text">Created: %1$s</string>
+
+    <!--    Add User-->
+    <string name="add_user_error_text">There was an error with your request</string>
+    <string name="add_user_name_hint_text">Name</string>
+    <string name="add_user_email_hint_text">Email</string>
+    <string name="add_user_button_text">Add new user</string>
 </resources>

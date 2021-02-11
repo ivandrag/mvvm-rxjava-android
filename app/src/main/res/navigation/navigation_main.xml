@@ -8,6 +8,16 @@
     <fragment
         android:id="@+id/userListFragment"
         android:name="ro.dragosivanov.ui.users.UserListFragment"
-        tools:layout="@layout/fragment_user_list" />
+        tools:layout="@layout/fragment_user_list">
+        <action
+            android:id="@+id/action_userListFragment_to_addUserDialogFragment"
+            app:destination="@id/addUserDialogFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addUserDialogFragment"
+        android:name="ro.dragosivanov.ui.adduser.AddUserDialogFragment"
+        android:label="AddUserDialogFragment"
+        tools:layout="@layout/dialog_fragment_add_user" />
 
 </navigation>

@@ -25,8 +25,9 @@ class AppContainer {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val goRestApi = retrofit.create(GoRestApi::class.java)
-    var userContainer = UserContainer(goRestApi)
+    val goRestApi = retrofit.create(GoRestApi::class.java)
+    var userContainer : UserContainer? = null
+    var addUserContainer: AddUserContainer? = null
 }
 
 class UserContainer(goRestApi: GoRestApi) {
@@ -35,7 +36,19 @@ class UserContainer(goRestApi: GoRestApi) {
     val userUseCase = UserUseCase(userRepository)
 }
 
-class UserListViewModelFactory(private val userUseCase: UserUseCase) : ViewModelProvider.Factory {
+class AddUserContainer(goRestApi: GoRestApi) {
+    private val userRemoteDataSource = UserRemoteDataSource(goRestApi)
+    private val userRepository = UserRepository(userRemoteDataSource)
+    val userUseCase = UserUseCase(userRepository)
+}
+
+class UserListViewModelFactory(private val userUseCase: UserUseCase?) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return modelClass.getConstructor(UserUseCase::class.java).newInstance(userUseCase)
+    }
+}
+
+class AddListViewModelFactory(private val userUseCase: UserUseCase?) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(UserUseCase::class.java).newInstance(userUseCase)
     }
